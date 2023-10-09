@@ -34,6 +34,11 @@ return require('packer').startup(function(use)
   }
 
   use {
+    'hiphish/rainbow-delimiters.nvim',
+    requires = { 'nvim-treesitter/nvim-treesitter' }
+  }
+
+  use {
     'VonHeikemen/lsp-zero.nvim',
     branch = 'v3.x',
     requires = {
