@@ -13,7 +13,7 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.smartindent = true
-vim.o.breakindent = true 
+vim.o.breakindent = true
 
 -- search
 vim.o.hlsearch = false
@@ -24,7 +24,7 @@ vim.o.smartcase = true
 vim.opt.termguicolors = true
 vim.wo.signcolumn = 'number'
 
--- scrolling 
+-- scrolling
 vim.opt.scrolloff = 8
 
 -- windows
@@ -40,7 +40,7 @@ vim.g.netrw_liststyle = 3
 vim.g.netrw_browse_split = 4
 vim.g.netrw_winsize = 25
 
--- default remaps 
+-- default remaps
 vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('i', '<C-c>', '<Esc>')
