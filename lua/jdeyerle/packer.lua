@@ -59,6 +59,7 @@ return require('packer').startup(function(use)
     'jay-babu/mason-null-ls.nvim',
     requires = {
       'williamboman/mason.nvim',
+      'nvim-lua/plenary.nvim',
       'nvimtools/none-ls.nvim',
     },
   }
