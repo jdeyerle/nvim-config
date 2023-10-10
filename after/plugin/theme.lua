@@ -1,5 +1,7 @@
 vim.cmd.colorscheme 'onedark'
 
+vim.opt.showmode = false
+
 require('lualine').setup {
   options = {
     icons_enabled = true,
