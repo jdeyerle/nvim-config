@@ -55,6 +55,8 @@ return require('packer').startup(function(use)
     },
   }
 
+  use 'folke/neodev.nvim'
+
   use {
     'jay-babu/mason-null-ls.nvim',
     requires = {
