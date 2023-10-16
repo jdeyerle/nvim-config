@@ -68,6 +68,8 @@ return require('packer').startup(function(use)
 
   use 'tpope/vim-fugitive'
 
+  use 'numToStr/Comment.nvim'
+
   use 'mbbill/undotree'
 
   use {
