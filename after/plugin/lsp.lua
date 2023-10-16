@@ -1,5 +1,9 @@
 local lsp_zero = require 'lsp-zero'
-local lspconfig = require 'lspconfig'
+
+local servers = {
+  lua_ls = lsp_zero.nvim_lua_ls(),
+  tsserver = {},
+}
 
 require('neodev').setup {}
 
@@ -10,17 +14,19 @@ lsp_zero.on_attach(function(_, bufnr)
 end)
 
 -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+-- lsp_zero.get_capabilities() might be better?
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 require('mason').setup {}
 require('mason-lspconfig').setup {
-  ensure_installed = { 'lua_ls', 'tsserver' },
+  ensure_installed = vim.tbl_keys(servers),
   handlers = {
-    lsp_zero.default_setup,
-    lua_ls = function()
-      local lua_opts = lsp_zero.nvim_lua_ls()
-      lspconfig.lua_ls.setup(lua_opts)
+    function(server_name)
+      require('lsp-zero.server').setup(server_name, {
+        capabilities = capabilities,
+        settings = servers[server_name],
+      })
     end,
   },
 }
