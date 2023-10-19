@@ -1,10 +1,5 @@
 local lsp_zero = require 'lsp-zero'
 
-local servers = {
-  lua_ls = lsp_zero.nvim_lua_ls(),
-  tsserver = {},
-}
-
 require('neodev').setup {}
 
 lsp_zero.on_attach(function(_, bufnr)
@@ -17,6 +12,11 @@ end)
 -- lsp_zero.get_capabilities() might be better?
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+local servers = {
+  lua_ls = lsp_zero.nvim_lua_ls().settings,
+  tsserver = {},
+}
 
 require('mason').setup {}
 require('mason-lspconfig').setup {
