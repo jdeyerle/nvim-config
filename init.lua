@@ -22,7 +22,7 @@ vim.o.smartcase = true
 
 -- appearance
 vim.opt.termguicolors = true
-vim.wo.signcolumn = 'number'
+vim.wo.signcolumn = 'yes'
 
 -- scrolling
 vim.opt.scrolloff = 8
