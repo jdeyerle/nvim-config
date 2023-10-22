@@ -34,8 +34,14 @@ return require('packer').startup(function(use)
   }
 
   use {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    after = 'nvim-treesitter',
+    requires = 'nvim-treesitter/nvim-treesitter',
+  }
+
+  use {
     'hiphish/rainbow-delimiters.nvim',
-    requires = { 'nvim-treesitter/nvim-treesitter' },
+    requires = 'nvim-treesitter/nvim-treesitter',
   }
 
   use {
@@ -77,7 +83,7 @@ return require('packer').startup(function(use)
 
   use {
     'nvim-lualine/lualine.nvim',
-    requires = { 'nvim-tree/nvim-web-devicons' },
+    requires = 'nvim-tree/nvim-web-devicons',
   }
 
   use 'ellisonleao/gruvbox.nvim'
