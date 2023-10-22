@@ -66,8 +66,10 @@ return require('packer').startup(function(use)
     },
   }
 
-  use 'tpope/vim-fugitive'
   use 'lewis6991/gitsigns.nvim'
+
+  use 'akinsho/toggleterm.nvim'
+  use 'willothy/flatten.nvim'
 
   use 'numToStr/Comment.nvim'
 
