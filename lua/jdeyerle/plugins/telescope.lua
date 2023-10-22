@@ -30,6 +30,7 @@ return {
       })
     end, '[/] Fuzzily search in current buffer')
     nmap('gf', builtin.git_files, 'Search [G]it [F]iles')
+    nmap('gs', builtin.git_status, '[G]it [S]tatus')
     nmap('sf', builtin.find_files, '[S]earch [F]iles')
     nmap('sh', builtin.help_tags, '[S]earch [H]elp')
     nmap('sw', builtin.grep_string, '[S]earch current [W]ord')
