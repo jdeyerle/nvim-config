@@ -86,6 +86,13 @@ return require('packer').startup(function(use)
     requires = 'nvim-tree/nvim-web-devicons',
   }
 
+  use {
+    'nvim-tree/nvim-tree.lua',
+    requires = {
+      'nvim-tree/nvim-web-devicons',
+    },
+  }
+
   use 'ellisonleao/gruvbox.nvim'
   use 'navarasu/onedark.nvim'
 

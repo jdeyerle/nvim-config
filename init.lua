@@ -34,12 +34,6 @@ vim.opt.splitbelow = true
 -- turn off swapfile
 vim.opt.swapfile = false
 
--- netrw
-vim.g.netrw_banner = 0
-vim.g.netrw_liststyle = 3
-vim.g.netrw_browse_split = 4
-vim.g.netrw_winsize = 25
-
 -- highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -60,6 +54,4 @@ vim.keymap.set('i', '<C-c>', '<Esc>')
 
 -- leader maps
 vim.keymap.set('n', '<leader>w', '<C-w><C-w>', { desc = '[W]indow next' })
-vim.keymap.set('n', '<leader>dd', '<cmd>Lexplore %:p:h<cr>')
-vim.keymap.set('n', '<leader>da', vim.cmd.Lexplore)
 vim.keymap.set('x', '<leader>y', ':w !pbcopy<cr><silent>', { desc = '[Y]ank to system clipboard' })
