@@ -55,10 +55,11 @@ vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', 'x', '"_x')
 vim.keymap.set({ 'n', 'x' }, '<BS>', '<C-^>')
+vim.keymap.set({ 'n', 'x' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('i', '<C-c>', '<Esc>')
 
 -- leader maps
-vim.keymap.set('n', '<leader>w', '<C-w><C-w>')
+vim.keymap.set('n', '<leader>w', '<C-w><C-w>', { desc = '[W]indow next' })
 vim.keymap.set('n', '<leader>dd', '<cmd>Lexplore %:p:h<cr>')
 vim.keymap.set('n', '<leader>da', vim.cmd.Lexplore)
-vim.keymap.set('x', '<leader>y', ':w !pbcopy<cr><silent>')
+vim.keymap.set('x', '<leader>y', ':w !pbcopy<cr><silent>', { desc = '[Y]ank to system clipboard' })
