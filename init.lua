@@ -1,7 +1,7 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-require 'jdeyerle.packer'
+require('jdeyerle.lazy').setup()
 
 -- line numbers
 vim.opt.number = true
@@ -13,12 +13,12 @@ vim.opt.softtabstop = 2
 vim.opt.shiftwidth = 2
 vim.opt.expandtab = true
 vim.opt.smartindent = true
-vim.o.breakindent = true
+vim.opt.breakindent = true
 
 -- search
-vim.o.hlsearch = false
-vim.o.ignorecase = true
-vim.o.smartcase = true
+vim.opt.hlsearch = false
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 
 -- appearance
 vim.opt.termguicolors = true
@@ -33,6 +33,9 @@ vim.opt.splitbelow = true
 
 -- turn off swapfile
 vim.opt.swapfile = false
+
+-- Save undo history
+vim.opt.undofile = true
 
 -- highlight on yank
 local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
