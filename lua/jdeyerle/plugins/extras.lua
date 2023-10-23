@@ -4,12 +4,12 @@ return {
     config = true,
   },
 
-  {
-    'mbbill/undotree',
-    config = function()
-      vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, { desc = '[U]ndotree' })
-    end,
-  },
+  -- {
+  --   'mbbill/undotree',
+  --   config = function()
+  --     vim.keymap.set('n', '<leader>u', vim.cmd.UndotreeToggle, { desc = '[U]ndotree' })
+  --   end,
+  -- },
 
   -- trying prebuild to see if it prevents update conflicts
   {
