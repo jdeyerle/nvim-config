@@ -58,3 +58,8 @@ vim.keymap.set('i', '<C-c>', '<Esc>')
 -- leader maps
 vim.keymap.set('n', '<leader>w', '<C-w><C-w>', { desc = '[W]indow next' })
 vim.keymap.set('x', '<leader>y', ':w !pbcopy<cr><silent>', { desc = '[Y]ank to system clipboard' })
+
+-- user commands
+vim.api.nvim_create_user_command('ConventionalCommit', function()
+  vim.fn.system { 'open', 'https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines' }
+end, {})
