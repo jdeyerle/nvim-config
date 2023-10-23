@@ -1,4 +1,4 @@
-return { 
+return {
   {
     'nvim-treesitter/nvim-treesitter',
 
@@ -10,6 +10,7 @@ return {
     end,
 
     config = function()
+      ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup {
         ensure_installed = {
           'c',
@@ -28,10 +29,6 @@ return {
         sync_install = false,
 
         auto_install = true,
-
-        -- add these to satisfy language server
-        ignore_install = {},
-        modules = {},
 
         highlight = { enable = true },
 
@@ -100,8 +97,7 @@ return {
   {
     'hiphish/rainbow-delimiters.nvim',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    config = function() 
-
+    config = function()
       local rainbow_delimiters = require 'rainbow-delimiters'
 
       vim.g.rainbow_delimiters = {
@@ -123,6 +119,6 @@ return {
           'RainbowDelimiterCyan',
         },
       }
-    end
-  }
+    end,
+  },
 }
