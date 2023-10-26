@@ -21,17 +21,33 @@ return {
       { 'hrsh7th/nvim-cmp' },
       { 'hrsh7th/cmp-nvim-lsp' },
       { 'L3MON4D3/LuaSnip' },
+
+      -- Telescope for custom keymaps
+      { 'nvim-telescope/telescope.nvim' },
     },
 
     config = function()
       local lsp_zero = require 'lsp-zero'
+      local telescope = require 'telescope.builtin'
 
       require('neodev').setup {}
 
       lsp_zero.on_attach(function(_, bufnr)
         -- see :help lsp-zero-keybindings
-        -- to learn the available actions
         lsp_zero.default_keymaps { buffer = bufnr }
+
+        local map = function(mode, keys, fn, desc)
+          vim.keymap.set(mode, keys, fn, { buffer = bufnr, desc = 'LSP: ' .. desc })
+        end
+
+        -- lsp-zero overrides
+        map('n', 'K', vim.lsp.buf.hover, 'Show hover')
+        map('n', 'gi', telescope.lsp_implementations, '[G]oto [I]mplementations')
+        map('n', 'gr', telescope.lsp_references, '[G]oto [R]eferences')
+
+        -- extras
+        map('n', '<leader>gS', telescope.lsp_document_symbols, '[G]oto document [S]ymbols')
+        map('n', '<leader>gS', telescope.lsp_dynamic_workspace_symbols, '[G]oto workspace [S]ymbols')
       end)
 
       -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
