@@ -9,26 +9,29 @@ return {
   },
 
   config = function()
-    local telescope = require 'telescope'
-    local builtin = require 'telescope.builtin'
-    local themes = require 'telescope.themes'
+    local telescope, builtin = require 'telescope', require 'telescope.builtin'
 
-    telescope.setup {}
+    telescope.setup {
+      defaults = require('telescope.themes').get_ivy {
+        winblend = 10,
+        dynamic_preview_title = true,
+        layout_config = { height = 33 },
+        path_display = function(_, path)
+          local tail = require('telescope.utils').path_tail(path)
+          return string.format('%s |> %s', tail, path)
+        end,
+      },
+    }
 
     telescope.load_extension 'fzf'
 
-    local function nmap(key, fn, desc)
+    local nmap = function(key, fn, desc)
       vim.keymap.set('n', '<leader>' .. key, fn, { desc = desc })
     end
 
     nmap('?', builtin.oldfiles, '[?] Find recently opened files')
     nmap('<space>', builtin.buffers, '[ ] Find existing buffers')
-    nmap('/', function()
-      builtin.current_buffer_fuzzy_find(themes.get_dropdown {
-        winblend = 10,
-        previewer = false,
-      })
-    end, '[/] Fuzzily search in current buffer')
+    nmap('/', builtin.current_buffer_fuzzy_find, '[/] Fuzzily search in current buffer')
     nmap('gf', builtin.git_files, 'Search [G]it [F]iles')
     nmap('gs', builtin.git_status, '[G]it [S]tatus')
     nmap('sf', builtin.find_files, '[S]earch [F]iles')
