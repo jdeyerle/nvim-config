@@ -26,15 +26,15 @@ return {
         always_show_folders = false,
       },
       on_attach = function(bufnr)
-        local map = function(mode, keys, fn, desc)
-          vim.keymap.set(mode, keys, fn, { buffer = bufnr, desc = 'nvim-tree: ' .. desc })
+        local nmap = function(keys, fn, desc)
+          vim.keymap.set('n', keys, fn, { buffer = bufnr, desc = 'nvim-tree: ' .. desc })
         end
 
         api.config.mappings.default_on_attach(bufnr)
 
-        map('n', '<leader>t', '<cmd>wincmd p<cr>', 'File [T]ree')
-        map('n', 't', '<cmd>wincmd p<cr>', 'File [T]ree')
-        map('n', '?', api.tree.toggle_help, '[?] Help')
+        nmap('<leader>t', '<cmd>wincmd p<cr>', 'File [T]ree')
+        nmap('t', '<cmd>wincmd p<cr>', 'File [T]ree')
+        nmap('?', api.tree.toggle_help, '[?] Help')
       end,
     }
 

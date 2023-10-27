@@ -61,5 +61,8 @@ vim.keymap.set('x', '<leader>y', ':w !pbcopy<cr><silent>', { desc = '[Y]ank to s
 
 -- user commands
 vim.api.nvim_create_user_command('ConventionalCommit', function()
-  vim.fn.system { 'open', 'https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines' }
+  vim.fn.system {
+    'open',
+    'https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines',
+  }
 end, {})

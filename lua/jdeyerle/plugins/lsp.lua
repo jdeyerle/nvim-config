@@ -36,18 +36,18 @@ return {
         -- see :help lsp-zero-keybindings
         lsp_zero.default_keymaps { buffer = bufnr }
 
-        local map = function(mode, keys, fn, desc)
-          vim.keymap.set(mode, keys, fn, { buffer = bufnr, desc = 'LSP: ' .. desc })
+        local nmap = function(keys, fn, desc)
+          vim.keymap.set('n', keys, fn, { buffer = bufnr, desc = 'LSP: ' .. desc })
         end
 
         -- lsp-zero overrides
-        map('n', 'K', vim.lsp.buf.hover, 'Show hover')
-        map('n', 'gi', telescope.lsp_implementations, '[G]oto [I]mplementations')
-        map('n', 'gr', telescope.lsp_references, '[G]oto [R]eferences')
+        nmap('K', vim.lsp.buf.hover, 'Show hover')
+        nmap('gi', telescope.lsp_implementations, '[G]oto [I]mplementations')
+        nmap('gr', telescope.lsp_references, '[G]oto [R]eferences')
 
         -- extras
-        map('n', '<leader>gS', telescope.lsp_document_symbols, '[G]oto document [S]ymbols')
-        map('n', '<leader>gS', telescope.lsp_dynamic_workspace_symbols, '[G]oto workspace [S]ymbols')
+        nmap('<leader>gd', telescope.lsp_document_symbols, '[G]oto document [S]ymbols')
+        nmap('<leader>gw', telescope.lsp_dynamic_workspace_symbols, '[G]oto workspace [S]ymbols')
       end)
 
       -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
@@ -89,7 +89,8 @@ return {
         handlers = {},
       }
 
-      local autocmd_group = vim.api.nvim_create_augroup('Custom auto-commands for formatting', { clear = true })
+      local autocmd_group =
+        vim.api.nvim_create_augroup('Custom auto-commands for formatting', { clear = true })
 
       vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
         pattern = { '*.lua' },
