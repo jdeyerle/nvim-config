@@ -8,8 +8,8 @@ return {
     local nvim_tree = require 'nvim-tree'
     local api = require 'nvim-tree.api'
 
-    vim.g.loaded_netrw = 1
-    vim.g.loaded_netrwPlugin = 1
+    vim.go.loaded_netrw = 1
+    vim.go.loaded_netrwPlugin = 1
 
     vim.opt.termguicolors = true
 
@@ -25,6 +25,7 @@ return {
         prefix = '[FILTER]: ',
         always_show_folders = false,
       },
+      actions = { open_file = { quit_on_open = true } },
       on_attach = function(bufnr)
         local nmap = function(keys, fn, desc)
           vim.keymap.set('n', keys, fn, { buffer = bufnr, desc = 'nvim-tree: ' .. desc })
@@ -39,5 +40,22 @@ return {
     }
 
     vim.keymap.set('n', '<leader>t', nvim_tree.focus, { desc = 'File [T]ree' })
+
+    vim.api.nvim_create_user_command('Explore', function()
+      local file_path = vim.fn.expand '%:p:h'
+      local git_dir =
+        vim.fn.system({ 'git', '-C', file_path, 'rev-parse', '--show-toplevel' }):sub(1, -2)
+
+      if git_dir:sub(1, 6) == 'fatal:' then
+        print 'Not a git repo'
+        vim.cmd(':cd ' .. file_path)
+      else
+        vim.cmd(':cd ' .. git_dir)
+      end
+
+      nvim_tree.change_dir(vim.fn.getcwd())
+      nvim_tree.focus()
+      vim.cmd [[wincmd p]]
+    end, {})
   end,
 }
