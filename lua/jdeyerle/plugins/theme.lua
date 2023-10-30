@@ -15,8 +15,6 @@ return {
     },
     priority = 1000,
     config = function()
-      vim.opt.showmode = false
-
       require('lualine').setup {
         options = {
           icons_enabled = true,
@@ -25,6 +23,8 @@ return {
           section_separators = '',
         },
       }
+
+      vim.opt.showmode = false
     end,
   },
 }

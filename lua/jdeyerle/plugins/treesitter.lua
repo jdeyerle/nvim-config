@@ -118,6 +118,7 @@ return {
           'RainbowDelimiterViolet',
           'RainbowDelimiterCyan',
         },
+        blacklist = { 'lua' },
       }
     end,
   },
