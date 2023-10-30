@@ -38,12 +38,11 @@ vim.opt.swapfile = false
 vim.opt.undofile = true
 
 -- highlight on yank
-local highlight_group = vim.api.nvim_create_augroup('YankHighlight', { clear = true })
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
     vim.highlight.on_yank()
   end,
-  group = highlight_group,
+  group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
   pattern = '*',
 })
 
@@ -55,7 +54,8 @@ vim.keymap.set({ 'n', 'x' }, '<BS>', '<C-^>')
 vim.keymap.set({ 'n', 'x' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('i', '<C-c>', '<Esc>')
 
--- leader maps
+-- custom mappings
+vim.keymap.set('i', 'kj', '<Esc>')
 vim.keymap.set('n', '<leader>w', '<C-w><C-w>', { desc = '[W]indow next' })
 vim.keymap.set('x', '<leader>y', ':w !pbcopy<cr><silent>', { desc = '[Y]ank to system clipboard' })
 
@@ -65,4 +65,13 @@ vim.api.nvim_create_user_command('ConventionalCommit', function()
     'open',
     'https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines',
   }
+end, {})
+
+vim.api.nvim_create_user_command('SO', function()
+  local cmds = {
+    ['javascript'] = '!bun %',
+    ['typescript'] = '!bun %',
+    ['markdown'] = 'MarkdownPreview',
+  }
+  vim.cmd(cmds[vim.bo.filetype] or 'so')
 end, {})
