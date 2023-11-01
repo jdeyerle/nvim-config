@@ -58,6 +58,7 @@ return {
       local servers = {
         lua_ls = lsp_zero.nvim_lua_ls().settings,
         tsserver = {},
+        marksman = {},
       }
 
       require('mason').setup {}

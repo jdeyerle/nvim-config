@@ -2,6 +2,8 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
 
+    name = 'jdeyerle.plugins.treesitter',
+
     dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
 
     build = function()
@@ -34,8 +36,6 @@ return {
 
         indent = { enable = true },
 
-        -- remap these, they interfere with default jumps
-        -- see top of help.txt
         incremental_selection = {
           enable = true,
           keymaps = {
@@ -95,8 +95,17 @@ return {
   },
 
   {
+    'ckolkey/ts-node-action',
+    dependencies = { 'jdeyerle.plugins.treesitter' },
+    config = function()
+      local ts_node = require 'ts-node-action'
+      vim.keymap.set('n', 'ga', ts_node.node_action, { desc = 'Node [A]ction' })
+    end,
+  },
+
+  {
     'hiphish/rainbow-delimiters.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    dependencies = { 'jdeyerle.plugins.treesitter' },
     config = function()
       local rainbow_delimiters = require 'rainbow-delimiters'
 
