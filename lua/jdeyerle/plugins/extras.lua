@@ -1,8 +1,6 @@
 return {
-  {
-    'numToStr/Comment.nvim',
-    config = true,
-  },
+  { 'tpope/vim-commentary' },
+  { 'tpope/vim-surround' },
 
   -- {
   --   'mbbill/undotree',
