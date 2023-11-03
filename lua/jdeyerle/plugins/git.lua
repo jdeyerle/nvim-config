@@ -19,7 +19,13 @@ return {
       }
 
       vim.keymap.set('n', '<leader>gg', function()
-        lazygit:toggle()
+        local git_dir = require('jdeyerle.util').git_dir()
+        if git_dir then
+          lazygit.dir = git_dir
+          lazygit:toggle()
+        else
+          print 'Not a git repository.'
+        end
       end, { desc = 'Lazy[G]it' })
     end,
   },

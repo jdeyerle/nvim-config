@@ -41,19 +41,17 @@ return {
 
     vim.keymap.set('n', '<leader>t', nvim_tree.focus, { desc = 'File [T]ree' })
 
-    vim.api.nvim_create_user_command('Explore', function()
-      local file_path = vim.fn.expand '%:p:h'
-      local git_dir =
-        vim.fn.system({ 'git', '-C', file_path, 'rev-parse', '--show-toplevel' }):sub(1, -2)
+    vim.api.nvim_create_autocmd('DirChanged', {
+      pattern = 'global',
+      group = vim.api.nvim_create_augroup('NvimTreeChangeDir', { clear = true }),
+      callback = function()
+        nvim_tree.change_dir(vim.v.event.cwd)
+      end,
+    })
 
-      if git_dir:sub(1, 6) == 'fatal:' then
-        print 'Not a git repo'
-        vim.cmd(':cd ' .. file_path)
-      else
-        vim.cmd(':cd ' .. git_dir)
-      end
-
-      nvim_tree.change_dir(vim.fn.getcwd())
+    vim.api.nvim_create_user_command('CD', function()
+      local path = require('jdeyerle.util').git_dir() or vim.expand '%:p:h'
+      vim.cmd(':cd ' .. path)
       nvim_tree.focus()
       vim.cmd [[wincmd p]]
     end, {})
