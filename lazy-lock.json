@@ -2,6 +2,7 @@
   "LuaSnip": { "branch": "master", "commit": "80a8528f084a97b624ae443a6f50ff8074ba486b" },
   "cmp-nvim-lsp": { "branch": "main", "commit": "44b16d11215dce86f253ce0c30949813c0a90765" },
   "copilot.vim": { "branch": "release", "commit": "f6d1124a12ca76731313eb0e7ec9562ee6f12e73" },
+  "dashboard-nvim": { "branch": "master", "commit": "c71cab740e2add248c54c458b5ca9d6e77c30fa6" },
   "flatten.nvim": { "branch": "main", "commit": "f75bd1eae9aa826dda5ddc3a8cf5a0efa6df046b" },
   "gitsigns.nvim": { "branch": "main", "commit": "af0f583cd35286dd6f0e3ed52622728703237e50" },
   "jdeyerle.plugins.treesitter": { "branch": "master", "commit": "efec7115d8175bdb6720eeb4e26196032cb52593" },

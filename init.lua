@@ -1,5 +1,6 @@
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
+vim.loader.enable()
 
 require('jdeyerle.lazy').setup()
 require('jdeyerle.commands').setup()
