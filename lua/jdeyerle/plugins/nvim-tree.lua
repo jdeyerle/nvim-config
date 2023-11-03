@@ -48,12 +48,5 @@ return {
         nvim_tree.change_dir(vim.v.event.cwd)
       end,
     })
-
-    vim.api.nvim_create_user_command('CD', function()
-      local path = require('jdeyerle.util').git_dir() or vim.expand '%:p:h'
-      vim.cmd(':cd ' .. path)
-      nvim_tree.focus()
-      vim.cmd [[wincmd p]]
-    end, {})
   end,
 }

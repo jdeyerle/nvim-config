@@ -2,7 +2,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
 require('jdeyerle.lazy').setup()
-
+require('jdeyerle.commands').setup()
 -- line numbers
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -66,20 +66,3 @@ end, { expr = true })
 vim.keymap.set('i', 'kj', '<Esc>')
 vim.keymap.set('n', '<leader>w', '<C-w><C-w>', { desc = '[W]indow next' })
 vim.keymap.set('x', '<leader>y', '"+y', { desc = '[Y]ank to system clipboard' })
-
--- user commands
-vim.api.nvim_create_user_command('ConventionalCommit', function()
-  vim.fn.system {
-    'open',
-    'https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines',
-  }
-end, {})
-
-vim.api.nvim_create_user_command('SO', function()
-  local cmds = {
-    ['javascript'] = '!bun %',
-    ['typescript'] = '!bun %',
-    ['markdown'] = 'MarkdownPreview',
-  }
-  vim.cmd(cmds[vim.bo.filetype] or 'so')
-end, {})

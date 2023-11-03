@@ -10,4 +10,19 @@ function M.git_dir(path)
   end
 end
 
+---@param path string?
+---@return nil
+function M.find_all_files(path)
+  require('telescope.builtin').find_files {
+    cwd = path or vim.fn.getcwd(),
+    find_command = {
+      'rg',
+      '--files',
+      '--hidden',
+      '-g',
+      [[!.git]],
+    },
+  }
+end
+
 return M
