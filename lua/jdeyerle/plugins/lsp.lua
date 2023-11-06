@@ -1,8 +1,10 @@
 return {
   {
     'folke/neodev.nvim',
-    priority = 1000, -- neodev must load before lsp setup
-    config = true,
+    priority = 100, -- neodev must load before lsp setup
+    config = function()
+      require('neodev').setup {}
+    end,
   },
 
   {
@@ -30,24 +32,28 @@ return {
       local lsp_zero = require 'lsp-zero'
       local telescope = require 'telescope.builtin'
 
-      require('neodev').setup {}
-
       lsp_zero.on_attach(function(_, bufnr)
-        -- see :help lsp-zero-keybindings
-        lsp_zero.default_keymaps { buffer = bufnr }
-
         local nmap = function(keys, fn, desc)
           vim.keymap.set('n', keys, fn, { buffer = bufnr, desc = 'LSP: ' .. desc })
         end
 
-        -- lsp-zero overrides
-        nmap('K', vim.lsp.buf.hover, 'Show hover')
+        nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
+        nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
+
+        nmap('gd', vim.lsp.buf.definition, '[G]oto [D]efinition')
+        nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
+        nmap('<leader>D', vim.lsp.buf.type_definition, 'Type [D]efinition')
         nmap('gi', telescope.lsp_implementations, '[G]oto [I]mplementations')
         nmap('gr', telescope.lsp_references, '[G]oto [R]eferences')
 
-        -- extras
-        nmap('<leader>gd', telescope.lsp_document_symbols, '[G]oto document [S]ymbols')
-        nmap('<leader>gw', telescope.lsp_dynamic_workspace_symbols, '[G]oto workspace [S]ymbols')
+        nmap('<F2>', vim.lsp.buf.rename, 'Rename')
+        nmap('<F3>', function()
+          vim.lsp.buf.format { async = true }
+        end, 'Format buffer')
+        nmap('<F4>', vim.lsp.buf.code_action, 'Code Action')
+
+        nmap('<leader>gd', telescope.lsp_document_symbols, '[G]oto [D]ocument symbols')
+        nmap('<leader>gw', telescope.lsp_dynamic_workspace_symbols, '[G]oto [W]orkspace symbols')
       end)
 
       -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
@@ -56,9 +62,10 @@ return {
       capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
       local servers = {
+        bashls = {},
         lua_ls = lsp_zero.nvim_lua_ls().settings,
-        tsserver = {},
         marksman = {},
+        tsserver = {},
       }
 
       require('mason').setup {}
@@ -84,9 +91,9 @@ return {
       'nvimtools/none-ls.nvim',
     },
     config = function()
-      -- stylua ignore
+      ---@diagnostic disable-next-line: missing-fields
       require('mason-null-ls').setup {
-        ensure_installed = { 'prettier', 'stylua' },
+        ensure_installed = { 'prettier', 'shellcheck', 'stylua' },
         handlers = {},
       }
 

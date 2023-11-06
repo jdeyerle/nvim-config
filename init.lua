@@ -49,21 +49,29 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 -- default remaps
+local function indent_or_edit(key)
+  return function()
+    if #vim.fn.getline '.' == 0 then
+      return '"_cc'
+    else
+      return key
+    end
+  end
+end
+vim.keymap.set('n', 'i', indent_or_edit 'i', { expr = true })
+vim.keymap.set('n', 'a', indent_or_edit 'a', { expr = true })
 vim.keymap.set('n', '<C-d>', '<C-d>zz')
 vim.keymap.set('n', '<C-u>', '<C-u>zz')
 vim.keymap.set('n', 'x', '"_x')
 vim.keymap.set({ 'n', 'x' }, '<BS>', '<C-^>')
 vim.keymap.set({ 'n', 'x' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('i', '<C-c>', '<Esc>')
-vim.keymap.set('n', 'i', function()
-  if #vim.fn.getline '.' == 0 then
-    return '"_cc'
-  else
-    return 'i'
-  end
-end, { expr = true })
 
 -- custom mappings
+vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous [D]iagnostic message' })
+vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Next [D]iagnostic message' })
+vim.keymap.set('n', 'gl', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
+vim.keymap.set('n', 'gL', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
 vim.keymap.set('i', 'kj', '<Esc>')
 vim.keymap.set('n', '<leader>w', '<C-w><C-w>', { desc = '[W]indow next' })
 vim.keymap.set('x', '<leader>y', '"+y', { desc = '[Y]ank to system clipboard' })
