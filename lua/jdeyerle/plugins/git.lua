@@ -4,6 +4,18 @@ return {
     config = true,
   },
 
+  {
+    'akinsho/git-conflict.nvim',
+    config = true,
+  },
+
+  {
+    'f-person/git-blame.nvim',
+    config = function()
+      vim.g.gitblame_enabled = false
+    end,
+  },
+
   -- setup lazygit using toggleterm
   {
     'akinsho/toggleterm.nvim',
