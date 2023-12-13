@@ -13,6 +13,7 @@ return {
     'f-person/git-blame.nvim',
     config = function()
       vim.g.gitblame_enabled = false
+      vim.keymap.set('n', '<leader>gb', '<cmd>GitBlameToggle<cr>', { desc = '[G]it [B]lame' })
     end,
   },
 
@@ -26,7 +27,15 @@ return {
         cmd = 'lazygit',
         dir = 'git_dir',
         direction = 'float',
-        float_opts = { border = 'curved' },
+        float_opts = {
+          border = 'curved',
+          height = function()
+            return vim.o.lines - 4
+          end,
+          width = function()
+            return vim.o.columns - 4
+          end,
+        },
         hidden = true,
       }
 

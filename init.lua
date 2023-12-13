@@ -4,6 +4,7 @@ vim.loader.enable()
 
 require('jdeyerle.lazy').setup()
 require('jdeyerle.commands').setup()
+
 -- line numbers
 vim.opt.number = true
 vim.opt.relativenumber = true
@@ -39,13 +40,17 @@ vim.opt.swapfile = false
 -- save undo history
 vim.opt.undofile = true
 
+-- share clipboard with os
+-- see :help clipboard
+vim.opt.clipboard = 'unnamedplus'
+
 -- highlight on yank
 vim.api.nvim_create_autocmd('TextYankPost', {
+  pattern = '*',
+  group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
   callback = function()
     vim.highlight.on_yank()
   end,
-  group = vim.api.nvim_create_augroup('YankHighlight', { clear = true }),
-  pattern = '*',
 })
 
 -- default remaps

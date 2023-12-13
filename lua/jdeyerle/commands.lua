@@ -27,9 +27,21 @@ function M.setup()
     local cmds = {
       ['javascript'] = '!bun %',
       ['typescript'] = '!bun %',
+      ['rust'] = '!cargo run %',
       ['markdown'] = 'MarkdownPreview',
     }
-    vim.cmd(cmds[vim.bo.filetype] or 'so')
+
+    local cmd = cmds[vim.bo.filetype]
+
+    if cmd and vim.bo.modified then
+      local input = vim.fn.input 'Save changes and continue? (y/n) '
+      if input:gsub('%s+', ''):lower() ~= 'y' then
+        return
+      end
+      vim.cmd 'w'
+    end
+
+    vim.cmd(cmd or 'so')
   end)
 
   command('ConventionalCommit', function()

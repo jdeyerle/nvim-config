@@ -15,17 +15,25 @@ return {
       ---@diagnostic disable-next-line: missing-fields
       require('nvim-treesitter.configs').setup {
         ensure_installed = {
+          'bash',
           'c',
           'cpp',
           'go',
+          'graphql',
+          'hcl',
+          'html',
+          'javascript',
+          'jsdoc',
+          'json',
           'lua',
           'python',
           'rust',
+          'toml',
           'tsx',
-          'javascript',
           'typescript',
           'vimdoc',
           'vim',
+          'yaml',
         },
 
         sync_install = false,
