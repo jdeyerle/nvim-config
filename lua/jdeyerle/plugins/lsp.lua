@@ -1,9 +1,20 @@
 return {
   {
-    'folke/neodev.nvim',
-    priority = 100, -- neodev must load before lsp setup
+    'williamboman/mason.nvim',
+    dependencies = { 'WhoIsSethDaniel/mason-tool-installer.nvim' },
     config = function()
-      require('neodev').setup {}
+      require('mason').setup {}
+      require('mason-tool-installer').setup {
+        ensure_installed = {
+          -- formatting
+          'prettier',
+          'stylua',
+
+          -- linting
+          'eslint_d',
+          'selene',
+        },
+      }
     end,
   },
 
@@ -14,25 +25,56 @@ return {
 
     dependencies = {
       --- Uncomment these if you want to manage LSP servers from neovim
-      { 'williamboman/mason.nvim' },
-      { 'williamboman/mason-lspconfig.nvim' },
+      'williamboman/mason.nvim',
+      'williamboman/mason-lspconfig.nvim',
 
       -- LSP Support
-      { 'neovim/nvim-lspconfig' },
+      'neovim/nvim-lspconfig',
+
+      -- Neovim Lua API
+      -- make sure to setup neodev BEFORE lspconfig
+      { 'folke/neodev.nvim', config = true },
+
       -- Autocompletion
-      { 'hrsh7th/nvim-cmp' },
-      { 'hrsh7th/cmp-nvim-lsp' },
-      { 'L3MON4D3/LuaSnip' },
+      'hrsh7th/nvim-cmp',
+      'hrsh7th/cmp-nvim-lsp',
+      'L3MON4D3/LuaSnip',
 
       -- Telescope for custom keymaps
-      { 'nvim-telescope/telescope.nvim' },
+      'nvim-telescope/telescope.nvim',
     },
 
     config = function()
       local lsp_zero = require 'lsp-zero'
-      local telescope = require 'telescope.builtin'
+
+      -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+      -- lsp_zero.get_capabilities() might be better?
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
+      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+
+      local servers = {
+        bashls = {},
+        lua_ls = lsp_zero.nvim_lua_ls().settings,
+        marksman = {},
+        rust_analyzer = {},
+        tsserver = {},
+      }
+
+      require('mason-lspconfig').setup {
+        ensure_installed = vim.tbl_keys(servers),
+        handlers = {
+          function(server_name)
+            require('lsp-zero.server').setup(server_name, {
+              capabilities = capabilities,
+              settings = servers[server_name],
+            })
+          end,
+        },
+      }
 
       lsp_zero.on_attach(function(_, bufnr)
+        local telescope = require 'telescope.builtin'
+
         local nmap = function(keys, fn, desc)
           vim.keymap.set('n', keys, fn, { buffer = bufnr, desc = 'LSP: ' .. desc })
         end
@@ -47,86 +89,101 @@ return {
         nmap('gr', telescope.lsp_references, '[G]oto [R]eferences')
 
         nmap('<F2>', vim.lsp.buf.rename, 'Rename')
-        nmap('<F3>', function()
-          vim.lsp.buf.format { async = true }
-        end, 'Format buffer')
         nmap('<F4>', vim.lsp.buf.code_action, 'Code Action')
 
         nmap('<leader>gd', telescope.lsp_document_symbols, '[G]oto [D]ocument symbols')
         nmap('<leader>gw', telescope.lsp_dynamic_workspace_symbols, '[G]oto [W]orkspace symbols')
       end)
-
-      -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-      -- lsp_zero.get_capabilities() might be better?
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
-      local servers = {
-        bashls = {},
-        lua_ls = lsp_zero.nvim_lua_ls().settings,
-        marksman = {},
-        tsserver = {},
-      }
-
-      require('mason').setup {}
-      require('mason-lspconfig').setup {
-        ensure_installed = vim.tbl_keys(servers),
-        handlers = {
-          function(server_name)
-            require('lsp-zero.server').setup(server_name, {
-              capabilities = capabilities,
-              settings = servers[server_name],
-            })
-          end,
-        },
-      }
     end,
   },
 
   {
-    'jay-babu/mason-null-ls.nvim',
-    dependencies = {
-      'williamboman/mason.nvim',
-      'nvim-lua/plenary.nvim',
-      'nvimtools/none-ls.nvim',
-    },
+    'stevearc/conform.nvim',
+    dependencies = { 'williamboman/mason.nvim' },
+    events = { 'BufNewFile', 'BufReadPre' },
     config = function()
-      ---@diagnostic disable-next-line: missing-fields
-      require('mason-null-ls').setup {
-        ensure_installed = { 'prettier', 'shellcheck', 'stylua' },
-        handlers = {},
+      local conform = require 'conform'
+
+      conform.setup {
+        formatters_by_ft = {
+          css = { 'prettier' },
+          html = { 'prettier' },
+          graphql = { 'prettier' },
+          javascript = { 'prettier' },
+          javascriptreact = { 'prettier' },
+          json = { 'prettier' },
+          markdown = { 'prettier' },
+          svelte = { 'prettier' },
+          typescript = { 'prettier' },
+          typescriptreact = { 'prettier' },
+          yaml = { 'prettier' },
+
+          lua = { 'stylua' },
+        },
+        format_on_save = function(bufnr)
+          if not vim.g.disable_autoformat and not vim.b[bufnr].disable_autoformat then
+            return { lsp_fallback = true, async = false, timeout_ms = 500 }
+          end
+        end,
       }
 
-      local autocmd_group =
-        vim.api.nvim_create_augroup('Custom auto-commands for formatting', { clear = true })
+      vim.api.nvim_create_user_command('ConformToggle', function()
+        vim.g.disable_autoformat = not vim.g.disable_autoformat
+        if vim.g.disable_autoformat then
+          print 'Autoformatting disabled'
+        else
+          print 'Autoformatting enabled'
+        end
+      end, {})
 
-      vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-        pattern = { '*.lua' },
-        desc = 'Auto-format lua files after saving',
-        callback = function()
-          local fileName = vim.api.nvim_buf_get_name(0)
-          vim.cmd(':silent !stylua ' .. fileName)
-        end,
-        group = autocmd_group,
-      })
+      vim.keymap.set({ 'n', 'x' }, '<F3>', function()
+        conform.format {
+          lsp_fallback = true,
+          async = false,
+          timeout_ms = 500,
+        }
+      end, { desc = 'Format file or range' })
+    end,
+  },
 
-      vim.api.nvim_create_autocmd({ 'BufWritePost' }, {
-        pattern = { '*.js', '*.jsx', '*.ts', '*.tsx', '*.json' },
-        desc = 'Auto-format js/ts files after saving',
+  {
+    'mfussenegger/nvim-lint',
+    dependencies = { 'williamboman/mason.nvim' },
+    events = { 'BufNewFile', 'BufReadPre' },
+    config = function()
+      local lint = require 'lint'
+
+      lint.linters_by_ft = {
+        javascript = { 'eslint_d' },
+        javascriptreact = { 'eslint_d' },
+        typescript = { 'eslint_d' },
+        typescriptreact = { 'eslint_d' },
+        svelte = { 'eslint_d' },
+
+        lua = { 'selene' },
+      }
+
+      vim.api.nvim_create_user_command('LintToggle', function()
+        vim.g.disable_autolint = not vim.g.disable_autolint
+        if vim.g.disable_autolint then
+          print 'Autolinting disabled'
+        else
+          print 'Autolinting enabled'
+        end
+      end, {})
+
+      vim.api.nvim_create_user_command('Lint', function()
+        lint.try_lint()
+      end, {})
+
+      vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
+        pattern = { '*.js', '*.jsx', '*.ts', '*.tsx', '*.svelte', '*.lua' },
+        group = vim.api.nvim_create_augroup('Lint', { clear = true }),
         callback = function()
-          local fileName = vim.api.nvim_buf_get_name(0)
-          local jobid = vim.fn.jobstart([[grep -E '"prettier"\s*:\s*".+"' package.json]], {
-            on_exit = function(_, exitcode)
-              if exitcode == 0 then
-                vim.cmd(':silent !npx prettier -w ' .. fileName)
-              else
-                vim.cmd(':silent !prettier -w ' .. fileName)
-              end
-            end,
-          })
-          vim.fn.jobwait { jobid }
+          if not vim.g.disable_autolint then
+            lint.try_lint()
+          end
         end,
-        group = autocmd_group,
       })
     end,
   },
