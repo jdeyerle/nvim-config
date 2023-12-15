@@ -2,13 +2,13 @@
 
 ## 📦 Installation
 
-⚡️ Requirements 
+⚡️ Requirements
 
 ```shell
 brew install ripgrep fzf jesseduffield/lazygit/lazygit nvm neovim diff-so-fancy git-delta
 ```
 
- 💾 Neovim Config
+💾 Neovim Config
 
 ```shell
 git clone https://github.com/jdeyerle/config-nvim.git ~/.config/nvim/
@@ -25,4 +25,3 @@ git clone https://github.com/jdeyerle/config-nvim.git ~/.config/nvim/
 
 - [ ] look into [pocco81/dap-buddy.nvim](https://github.com/pocco81/dap-buddy.nvim) and [jay-babu/mason-nvim-dap.nvim](https://github.com/jay-babu/mason-nvim-dap.nvim)
 - [ ] better undotree config or different plugin
-- [ ] better formatting setup -- it works but.. yeah

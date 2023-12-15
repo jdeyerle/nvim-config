@@ -39,7 +39,7 @@ return {
       end,
     }
 
-    vim.keymap.set('n', '<leader>t', nvim_tree.focus, { desc = 'File [T]ree' })
+    vim.keymap.set('n', '<leader>t', '<cmd>NvimTreeFocus<cr>', { desc = 'File [T]ree' })
 
     vim.api.nvim_create_autocmd('DirChanged', {
       pattern = 'global',

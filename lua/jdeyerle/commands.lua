@@ -19,7 +19,7 @@ function M.setup()
   command('CD', function()
     local path = require('jdeyerle.util').git_dir() or vim.expand '%:p:h'
     vim.cmd(':cd ' .. path)
-    require('nvim-tree').focus()
+    vim.cmd 'NvimTreeFocus'
     vim.cmd [[wincmd p]]
   end)
 
