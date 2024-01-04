@@ -17,9 +17,9 @@ function M.setup()
   command('Dotfiles', bind(util.find_all_files, '~/.dotfiles'))
 
   command('CD', function()
-    local path = require('jdeyerle.util').git_dir() or vim.expand '%:p:h'
+    local path = util.git_dir() or vim.expand '%:p:h'
     vim.cmd(':cd ' .. path)
-    vim.cmd 'NvimTreeFocus'
+    vim.cmd [[NvimTreeFocus]]
     vim.cmd [[wincmd p]]
   end)
 
@@ -48,6 +48,13 @@ function M.setup()
     vim.fn.system {
       'open',
       'https://github.com/angular/angular/blob/22b96b9/CONTRIBUTING.md#-commit-message-guidelines',
+    }
+  end)
+
+  command('DevHints', function()
+    vim.fn.system {
+      'open',
+      'https://devhints.io/' .. vim.bo.filetype,
     }
   end)
 end

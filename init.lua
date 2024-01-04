@@ -71,6 +71,9 @@ vim.keymap.set('n', 'x', '"_x')
 vim.keymap.set({ 'n', 'x' }, '<BS>', '<C-^>')
 vim.keymap.set({ 'n', 'x' }, '<Space>', '<Nop>', { silent = true })
 vim.keymap.set('i', '<C-c>', '<Esc>')
+-- Remap for dealing with word wrap
+vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- custom mappings
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Previous [D]iagnostic message' })
