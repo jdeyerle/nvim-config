@@ -13,6 +13,7 @@ return {
           -- linting
           'eslint_d',
           'selene',
+          'hadolint',
         },
       }
     end,
@@ -127,7 +128,7 @@ return {
         end,
       }
 
-      vim.api.nvim_create_user_command('ConformToggle', function()
+      vim.api.nvim_create_user_command('FormatToggle', function()
         vim.g.disable_autoformat = not vim.g.disable_autoformat
         if vim.g.disable_autoformat then
           print 'Autoformatting disabled'
@@ -159,6 +160,8 @@ return {
         typescript = { 'eslint_d' },
         typescriptreact = { 'eslint_d' },
         svelte = { 'eslint_d' },
+
+        dockerfile = { 'hadolint' },
 
         lua = { 'selene' },
       }
