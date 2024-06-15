@@ -5,7 +5,7 @@
 ⚡️ Requirements
 
 ```shell
-brew install ripgrep fzf jesseduffield/lazygit/lazygit nvm neovim diff-so-fancy git-delta
+brew install ripgrep fzf jesseduffield/lazygit/lazygit nvm neovim diff-so-fancy git-delta cmake fd
 ```
 
 💾 Neovim Config

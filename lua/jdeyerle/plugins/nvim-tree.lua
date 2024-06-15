@@ -8,8 +8,8 @@ return {
     local nvim_tree = require 'nvim-tree'
     local api = require 'nvim-tree.api'
 
-    vim.go.loaded_netrw = 1
-    vim.go.loaded_netrwPlugin = 1
+    vim.g.loaded_netrw = 1
+    vim.g.loaded_netrwPlugin = 1
 
     vim.opt.termguicolors = true
 

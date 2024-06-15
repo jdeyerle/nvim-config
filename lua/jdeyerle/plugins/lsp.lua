@@ -47,6 +47,7 @@ return {
 
     config = function()
       local lsp_zero = require 'lsp-zero'
+      local lsp_zero_server = require 'lsp-zero.server'
 
       -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
       -- lsp_zero.get_capabilities() might be better?
@@ -65,13 +66,14 @@ return {
         ensure_installed = vim.tbl_keys(servers),
         handlers = {
           function(server_name)
-            require('lsp-zero.server').setup(server_name, {
+            lsp_zero_server.setup(server_name, {
               capabilities = capabilities,
               settings = servers[server_name],
             })
           end,
         },
       }
+
 
       lsp_zero.on_attach(function(_, bufnr)
         local telescope = require 'telescope.builtin'

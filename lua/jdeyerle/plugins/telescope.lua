@@ -2,11 +2,8 @@ return {
   {
     'nvim-telescope/telescope.nvim',
 
-    tag = '0.1.3', -- preview error with 0.1.4
-
     dependencies = {
       'nvim-lua/plenary.nvim',
-      { 'nvim-telescope/telescope-fzf-native.nvim', build = 'make' },
     },
 
     config = function()
@@ -23,8 +20,6 @@ return {
           end,
         },
       }
-
-      telescope.load_extension 'fzf'
 
       local nmap = function(key, fn, desc)
         vim.keymap.set('n', '<leader>' .. key, fn, { desc = desc })
@@ -55,7 +50,7 @@ return {
   {
     'nvim-telescope/telescope-fzf-native.nvim',
     dependencies = { 'nvim-telescope/telescope.nvim' },
-    build = 'make',
+    build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build',
     config = function()
       require('telescope').load_extension 'fzf'
     end,
