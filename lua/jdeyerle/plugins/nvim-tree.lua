@@ -3,7 +3,10 @@ return {
   dependencies = {
     'nvim-tree/nvim-web-devicons',
   },
-  priority = 1001, -- see :help nvim-tree-netrw
+  -- default priority is 50 and colorscheme plugins are generally loaded
+  -- with priority 1000, so we want to use a higher priority to hijack netrw
+  -- see `nvim-tree-netrw` and `lazy.nvim.txt` :help pages for more info
+  priority = 1001,
   config = function()
     local nvim_tree = require 'nvim-tree'
     local api = require 'nvim-tree.api'
@@ -14,18 +17,26 @@ return {
     vim.opt.termguicolors = true
 
     nvim_tree.setup {
-      disable_netrw = true,
-      hijack_netrw = true,
       hijack_cursor = true,
       update_focused_file = { enable = true },
       view = {
         width = {}, -- dynamic width - see :h nvim-tree-opts
+        relativenumber = true,
       },
-      live_filter = {
-        prefix = '[FILTER]: ',
-        always_show_folders = false,
+      renderer = {
+        indent_markers = { enable = true },
+        icons = {
+          glyphs = {
+            folder = {
+              arrow_closed = '→',
+              arrow_open = '↓',
+            },
+          },
+        },
       },
       actions = { open_file = { quit_on_open = true } },
+      filters = { custom = { '.DS_Store' } },
+      -- git = { ignore = false },
       on_attach = function(bufnr)
         local nmap = function(keys, fn, desc)
           vim.keymap.set('n', keys, fn, { buffer = bufnr, desc = 'nvim-tree: ' .. desc })
