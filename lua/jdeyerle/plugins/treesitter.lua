@@ -2,8 +2,6 @@ return {
   {
     'nvim-treesitter/nvim-treesitter',
 
-    name = 'jdeyerle.plugins.treesitter',
-
     dependencies = { 'nvim-treesitter/nvim-treesitter-textobjects' },
 
     build = function()
@@ -109,7 +107,7 @@ return {
 
   {
     'ckolkey/ts-node-action',
-    dependencies = { 'jdeyerle.plugins.treesitter' },
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
       local ts_node = require 'ts-node-action'
       vim.keymap.set('n', 'ga', ts_node.node_action, { desc = 'Node [A]ction' })
@@ -118,7 +116,7 @@ return {
 
   {
     'hiphish/rainbow-delimiters.nvim',
-    dependencies = { 'jdeyerle.plugins.treesitter' },
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
     config = function()
       local rainbow_delimiters = require 'rainbow-delimiters'
 
