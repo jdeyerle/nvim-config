@@ -6,9 +6,9 @@ return {
     require('onedark').setup {
       style = 'darker',
       transparent = true,
-      lualine = {
-        transparent = true, -- center bar (c) transparency
-      },
+      -- lualine = {
+      --   transparent = true, -- center bar (c) transparency
+      -- },
     }
     vim.cmd.colorscheme 'onedark'
   end,

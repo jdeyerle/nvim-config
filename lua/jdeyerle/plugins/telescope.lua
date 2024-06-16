@@ -13,7 +13,7 @@ return {
         defaults = require('telescope.themes').get_ivy {
           -- winblend = 10, -- enable if not using transparent background
           dynamic_preview_title = true,
-          layout_config = { height = 33 },
+          layout_config = { height = 38 },
           path_display = function(_, path)
             local tail = require('telescope.utils').path_tail(path)
             return string.format('%s |> %s', tail, path)
