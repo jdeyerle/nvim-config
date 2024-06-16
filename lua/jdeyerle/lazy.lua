@@ -14,7 +14,10 @@ function M.setup()
   end
   vim.opt.rtp:prepend(lazypath)
 
-  require('lazy').setup 'jdeyerle.plugins'
+  require('lazy').setup {
+    { import = 'jdeyerle.plugins' },
+    { import = 'jdeyerle.plugins.ide' },
+  }
 end
 
 return M
