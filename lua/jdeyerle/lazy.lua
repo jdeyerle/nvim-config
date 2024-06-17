@@ -17,6 +17,7 @@ function M.setup()
   require('lazy').setup {
     { import = 'jdeyerle.plugins' },
     { import = 'jdeyerle.plugins.ide' },
+    { import = 'jdeyerle.plugins.ricing' },
   }
 end
 
