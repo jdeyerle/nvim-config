@@ -17,6 +17,8 @@ return {
           'c',
           'cpp',
           'dockerfile',
+          'elixir',
+          'eex',
           'gdscript',
           'gleam',
           'go',

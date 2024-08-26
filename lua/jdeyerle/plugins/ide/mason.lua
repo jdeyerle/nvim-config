@@ -22,6 +22,7 @@ return {
     mason_lspconfig.setup {
       ensure_installed = {
         'bashls',
+        'elixirls',
         'lua_ls',
         'marksman',
         'rust_analyzer',

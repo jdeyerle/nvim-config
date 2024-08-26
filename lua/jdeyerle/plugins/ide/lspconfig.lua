@@ -34,6 +34,13 @@ return {
           settings = settings[server_name] or {},
         }
       end,
+
+      ['elixirls'] = function()
+        lspconfig.elixirls.setup {
+          capabilities = capabilities,
+          cmd = { 'elixir-ls' },
+        }
+      end,
     }
 
     lspconfig.gleam.setup { capabilities = capabilities }

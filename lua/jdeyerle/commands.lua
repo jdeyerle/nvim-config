@@ -25,6 +25,7 @@ function M.setup()
 
   command('SO', function()
     local cmds = {
+      ['elixir'] = '!elixir %',
       ['javascript'] = '!bun %',
       ['typescript'] = '!bun %',
       ['rust'] = '!cargo run %',
