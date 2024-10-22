@@ -1,5 +1,6 @@
 return {
   'folke/noice.nvim',
+  enabled = false,
   event = 'VeryLazy',
   dependencies = {
     'MunifTanjim/nui.nvim',
@@ -10,6 +11,7 @@ return {
     ---@diagnostic disable-next-line: missing-fields
     require('notify').setup {
       background_colour = '#000000',
+      top_down = false,
     }
 
     require('noice').setup {
