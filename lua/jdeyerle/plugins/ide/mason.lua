@@ -25,8 +25,9 @@ return {
         'elixirls',
         'lua_ls',
         'marksman',
+        'pylsp',
         'rust_analyzer',
-        'tsserver',
+        'ts_ls',
       },
     }
 
