@@ -16,6 +16,7 @@ return {
           'bash',
           'c',
           'cpp',
+          'css',
           'dockerfile',
           'elixir',
           'eex',
@@ -110,10 +111,7 @@ return {
   {
     'ckolkey/ts-node-action',
     dependencies = { 'nvim-treesitter/nvim-treesitter' },
-    config = function()
-      local ts_node = require 'ts-node-action'
-      vim.keymap.set('n', 'ga', ts_node.node_action, { desc = 'Node [A]ction' })
-    end,
+    config = true,
   },
 
   {
@@ -142,6 +140,14 @@ return {
         },
         blacklist = { 'lua' },
       }
+    end,
+  },
+
+  {
+    'windwp/nvim-ts-autotag',
+    dependencies = { 'nvim-treesitter/nvim-treesitter' },
+    config = function()
+      require('nvim-ts-autotag').setup {}
     end,
   },
 }
